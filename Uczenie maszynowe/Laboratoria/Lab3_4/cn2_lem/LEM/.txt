@@ -1,0 +1,157 @@
+
+========================================
+Object 1. {(Temp = l), (Hem = f), (Blood = n), (Oxygen = p), (Comfort = l)}
+
+--------------------
+Exactly matched rules
+
+rule 1. (Temp = l) & (Hem = f) => (Comfort = l) [50.0]
+rule 2. (Blood = n) => (Comfort = m) [66.7]
+
+
++----------------------+----------------------+----------------------+
+| Decision attribute   | Decision class       |  Support             |
++----------------------+----------------------+----------------------+
+|              Comfort |                    l |                 50.0 |
+|              Comfort |                    m |                 66.7 |
+|              Comfort |                   vl |                  0.0 |
++----------------------+----------------------+----------------------+
+
+Decision: m
+Classification incorrect
+
+========================================
+Object 2. {(Temp = l), (Hem = g), (Blood = n), (Oxygen = f), (Comfort = m)}
+
+--------------------
+Exactly matched rules
+
+rule 2. (Blood = n) => (Comfort = m) [66.7]
+
+
++----------------------+----------------------+----------------------+
+| Decision attribute   | Decision class       |  Support             |
++----------------------+----------------------+----------------------+
+|              Comfort |                    l |                  0.0 |
+|              Comfort |                    m |                 66.7 |
+|              Comfort |                   vl |                  0.0 |
++----------------------+----------------------+----------------------+
+
+Decision: m
+Classification correct
+
+========================================
+Object 1. {(Temp = l), (Hem = f), (Blood = l), (Oxygen = f), (Comfort = l)}
+
+--------------------
+Exactly matched rules
+
+rule 1. (Blood = l) => (Comfort = l) [50.0]
+
+
++----------------------+----------------------+----------------------+
+| Decision attribute   | Decision class       |  Support             |
++----------------------+----------------------+----------------------+
+|              Comfort |                    l |                 50.0 |
+|              Comfort |                    m |                  0.0 |
+|              Comfort |                   vl |                  0.0 |
++----------------------+----------------------+----------------------+
+
+Decision: l
+Classification correct
+
+========================================
+Object 2. {(Temp = n), (Hem = g), (Blood = l), (Oxygen = g), (Comfort = m)}
+
+--------------------
+Exactly matched rules
+
+rule 1. (Blood = l) => (Comfort = l) [50.0]
+
+
++----------------------+----------------------+----------------------+
+| Decision attribute   | Decision class       |  Support             |
++----------------------+----------------------+----------------------+
+|              Comfort |                    l |                 50.0 |
+|              Comfort |                    m |                  0.0 |
+|              Comfort |                   vl |                  0.0 |
++----------------------+----------------------+----------------------+
+
+Decision: l
+Classification incorrect
+
+========================================
+Object 1. {(Temp = l), (Hem = g), (Blood = n), (Oxygen = g), (Comfort = m)}
+
+--------------------
+Exactly matched rules
+
+No exact matched rules found...
+--------------------
+Partially matched rules
+
+Decision: NONE
+
+========================================
+Object 2. {(Temp = n), (Hem = p), (Blood = h), (Oxygen = g), (Comfort = vl)}
+
+--------------------
+Exactly matched rules
+
+No exact matched rules found...
+--------------------
+Partially matched rules
+
+Decision: NONE
+
+========================================
+Object 1. {(Temp = n), (Hem = g), (Blood = l), (Oxygen = g), (Comfort = l)}
+
+--------------------
+Exactly matched rules
+
+rule 3. (Temp = n) & (Blood = l) => (Comfort = m) [33.3]
+
+
++----------------------+----------------------+----------------------+
+| Decision attribute   | Decision class       |  Support             |
++----------------------+----------------------+----------------------+
+|              Comfort |                    l |                  0.0 |
+|              Comfort |                    m |                 33.3 |
+|              Comfort |                   vl |                  0.0 |
++----------------------+----------------------+----------------------+
+
+Decision: m
+Classification incorrect
+
+========================================
+Object 2. {(Temp = n), (Hem = f), (Blood = n), (Oxygen = g), (Comfort = m)}
+
+--------------------
+Exactly matched rules
+
+rule 1. (Hem = f) => (Comfort = l) [100.0]
+
+
++----------------------+----------------------+----------------------+
+| Decision attribute   | Decision class       |  Support             |
++----------------------+----------------------+----------------------+
+|              Comfort |                    l |                100.0 |
+|              Comfort |                    m |                  0.0 |
+|              Comfort |                   vl |                  0.0 |
++----------------------+----------------------+----------------------+
+
+Decision: l
+Classification incorrect
+
+========================================
+Object 1. {(Temp = h), (Hem = g), (Blood = h), (Oxygen = f), (Comfort = vl)}
+
+--------------------
+Exactly matched rules
+
+No exact matched rules found...
+--------------------
+Partially matched rules
+
+Decision: NONE

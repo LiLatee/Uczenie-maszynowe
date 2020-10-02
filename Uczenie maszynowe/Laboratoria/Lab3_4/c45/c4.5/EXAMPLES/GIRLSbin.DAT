@@ -1,0 +1,8 @@
+short, yes, no, no, blue,  +
+tall,  yes, no, no, brown, -
+tall,  no, yes, no, blue,  +
+short, no, no, yes, blue,  -
+tall,  no, no, yes, blue,  -
+tall,  yes, no, no, blue,  +
+tall,  no, no, yes, brown, -
+short, yes, no, no, brown, -

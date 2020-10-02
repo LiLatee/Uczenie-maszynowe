@@ -1,0 +1,123 @@
+**RULE FILE**
+@
+Time: [ Mon Mar 25 11:17:36 1996 ]
+Examples: monk1.exs
+Algorithm: UNORDERED
+Error_Estimate: LAPLACIAN
+Threshold: 0.00
+Star: 5
+@
+
+*UNORDERED-RULE-LIST*
+
+IF    a5 = w1
+THEN  Decision = w1  [29 0]
+
+IF    a1 = w3
+  AND a2 = w3
+THEN  Decision = w1  [17 0]
+
+IF    a1 = w2
+  AND a2 = w2
+THEN  Decision = w1  [15 0]
+
+IF    a1 = w1
+  AND a2 = w1
+THEN  Decision = w1  [9 0]
+
+IF    a1 = w1
+  AND a2 = w3
+  AND a5 = w4
+THEN  Decision = w0  [0 8]
+
+IF    a1 = w1
+  AND a2 = w2
+  AND a3 = w2
+THEN  Decision = w0  [0 7]
+
+IF    a1 = w2
+  AND a2 = w1
+  AND a3 = w2
+THEN  Decision = w0  [0 7]
+
+IF    a1 = w1
+  AND a2 = w3
+  AND a5 = w2
+THEN  Decision = w0  [0 6]
+
+IF    a1 = w2
+  AND a2 = w1
+  AND a5 = w4
+THEN  Decision = w0  [0 6]
+
+IF    a1 = w3
+  AND a2 = w1
+  AND a5 = w2
+THEN  Decision = w0  [0 5]
+
+IF    a1 = w2
+  AND a2 = w3
+  AND a5 = w3
+THEN  Decision = w0  [0 4]
+
+IF    a1 = w1
+  AND a2 = w2
+  AND a5 = w4
+THEN  Decision = w0  [0 5]
+
+IF    a1 = w1
+  AND a2 = w2
+  AND a5 = w3
+THEN  Decision = w0  [0 6]
+
+IF    a1 = w2
+  AND a2 = w1
+  AND a5 = w3
+THEN  Decision = w0  [0 5]
+
+IF    a1 = w3
+  AND a2 = w2
+  AND a5 = w4
+THEN  Decision = w0  [0 3]
+
+IF    a1 = w1
+  AND a2 = w2
+  AND a5 = w2
+THEN  Decision = w0  [0 4]
+
+IF    a1 = w1
+  AND a2 = w3
+  AND a5 = w3
+THEN  Decision = w0  [0 2]
+
+IF    a1 = w2
+  AND a2 = w1
+  AND a5 = w2
+THEN  Decision = w0  [0 3]
+
+IF    a1 = w3
+  AND a2 = w1
+  AND a5 = w3
+THEN  Decision = w0  [0 1]
+
+IF    a1 = w3
+  AND a2 = w2
+  AND a5 = w3
+THEN  Decision = w0  [0 1]
+
+IF    a1 = w2
+  AND a2 = w3
+  AND a5 = w2
+THEN  Decision = w0  [0 1]
+
+IF    a1 = w2
+  AND a2 = w3
+  AND a5 = w4
+THEN  Decision = w0  [0 1]
+
+IF    a1 = w3
+  AND a2 = w2
+  AND a5 = w2
+THEN  Decision = w0  [0 1]
+
+(DEFAULT) Decision = w1  [62 62]

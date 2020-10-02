@@ -1,0 +1,35 @@
+**RULE FILE**
+@
+Time: [ Mon Mar 25 10:06:10 1996 ]
+Examples: golf.exs
+Algorithm: UNORDERED
+Error_Estimate: LAPLACIAN
+Threshold: 0.00
+Star: 5
+@
+
+*UNORDERED-RULE-LIST*
+
+IF    outlook = sunny
+  AND humidity > 77.50
+THEN  decision = Do_not_Play  [3 0]
+
+IF    outlook = rain
+  AND windy = true
+THEN  decision = Do_not_Play  [2 0]
+
+IF    humidity < 82.50
+  AND windy = false
+THEN  decision = Play  [0 5]
+
+IF    outlook = overcast
+THEN  decision = Play  [0 4]
+
+IF    humidity > 95.50
+THEN  decision = Play  [0 1]
+
+IF    outlook = sunny
+  AND humidity < 77.50
+THEN  decision = Play  [0 2]
+
+(DEFAULT) decision = Play  [5 9]

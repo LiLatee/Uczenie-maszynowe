@@ -1,0 +1,154 @@
+**RULE FILE**
+@
+Time: [ Wed Oct 28 00:10:38 1998 ]
+Examples: crx.aex
+Algorithm: UNORDERED
+Error_Estimate: LAPLACIAN
+Threshold: 0.00
+Star: 5
+@
+
+*UNORDERED-RULE-LIST*
+
+IF    A8 < 10.75
+  AND A9 = T
+  AND 5.50 < A11 < 18.50
+THEN  DECISION = Y  [68 0]
+
+IF    A15 > 5676.00
+THEN  DECISION = Y  [19 0]
+
+IF    A2 > 19.00
+  AND A4 = U
+  AND A8 < 11.75
+  AND A9 = T
+  AND A14 < 91.00
+THEN  DECISION = Y  [67.50 0]
+
+IF    A3 > 1.79
+  AND A9 = T
+  AND A15 > 241.50
+THEN  DECISION = Y  [80 0]
+
+IF    A6 = X
+  AND 1.33 < A8 < 7.88
+THEN  DECISION = Y  [11 0]
+
+IF    A2 < 26.08
+  AND A9 = T
+  AND 20.00 < A14 < 106.00
+THEN  DECISION = Y  [32.50 0]
+
+IF    A8 > 12.75
+  AND A14 < 187.00
+THEN  DECISION = Y  [12 0]
+
+IF    A6 = CC
+  AND A10 = T
+THEN  DECISION = Y  [19 0]
+
+IF    A2 > 36.08
+  AND A13 = P
+THEN  DECISION = Y  [2 0]
+
+IF    A2 > 22.58
+  AND A3 < 2.12
+  AND A7 = H
+  AND A8 < 7.29
+  AND A9 = T
+THEN  DECISION = Y  [19 0]
+
+IF    A3 > 8.00
+  AND 2.50 < A11 < 7.50
+THEN  DECISION = Y  [21 0]
+
+IF    A2 < 19.21
+  AND A7 = N
+THEN  DECISION = Y  [1 0]
+
+IF    A1 = A
+  AND A4 = L
+THEN  DECISION = Y  [1.33 0]
+
+IF    A3 > 0.69
+  AND A8 < 1.38
+  AND A9 = F
+  AND A15 < 2320.00
+THEN  DECISION = N  [0 123]
+
+IF    A9 = F
+  AND A10 = T
+THEN  DECISION = N  [0 45]
+
+IF    A8 > 0.21
+  AND A9 = F
+  AND A14 < 124.00
+THEN  DECISION = N  [0 46]
+
+IF    A2 < 53.96
+  AND A7 = FF
+  AND A14 < 290.00
+THEN  DECISION = N  [0.06 28.47]
+
+IF    A2 < 36.62
+  AND A3 < 20.06
+  AND A9 = F
+  AND A15 > 47.00
+THEN  DECISION = N  [0 52.50]
+
+IF    A1 = B
+  AND A3 < 0.92
+  AND A8 > 0.04
+  AND A13 = S
+THEN  DECISION = N  [0 14]
+
+IF    22.58 < A2 < 33.62
+  AND A9 = F
+  AND A14 > 130.00
+THEN  DECISION = N  [0 62.38]
+
+IF    A3 > 0.06
+  AND A6 = C
+  AND A9 = F
+  AND A14 > 130.00
+  AND A15 < 57.50
+THEN  DECISION = N  [0 20]
+
+IF    A2 < 16.92
+  AND A10 = F
+THEN  DECISION = N  [0 11]
+
+IF    A8 > 7.61
+  AND A14 > 845.50
+THEN  DECISION = N  [0 1.50]
+
+IF    A2 < 36.08
+  AND A7 = DD
+THEN  DECISION = N  [0 4.33]
+
+IF    A2 > 61.54
+  AND A3 > 0.27
+  AND A8 < 10.75
+  AND A11 < 5.00
+THEN  DECISION = N  [0 10.50]
+
+IF    A7 = J
+  AND A15 > 13.50
+THEN  DECISION = N  [0 3]
+
+IF    28.58 < A2 < 41.00
+  AND A13 = S
+  AND A14 < 565.50
+THEN  DECISION = N  [0 14.25]
+
+IF    A2 < 36.08
+  AND A3 < 2.38
+  AND A6 = AA
+  AND A10 = F
+THEN  DECISION = N  [0 9.14]
+
+IF    19.58 < A2 < 21.80
+  AND A3 < 0.04
+THEN  DECISION = N  [0 3]
+
+(DEFAULT) DECISION = N  [217 273]

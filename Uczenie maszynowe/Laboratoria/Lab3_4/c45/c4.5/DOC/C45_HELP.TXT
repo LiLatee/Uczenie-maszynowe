@@ -1,0 +1,388 @@
+Data/Load
+---------
+
+  Wczytanie danych ucz¹cych i (ewentualnie) testowych.
+
+  Po wybraniu tej opcji pokazuje siê okno wyboru plików z danymi  i  ich  opisem.  Wybrany
+  plik  musi mieæ rozszerzenie .dat, ponadto w katalogu z wybranym plikiem musi byæ plik o
+  tej samej nazwie z roszerzeniem .nam. Oba pliki maj¹ format tekstowy. Ka¿d¹ grupê danych
+  w tych plikach nale¿y zakoñczyæ kropk¹; mo¿na opuœciæ kropkê, jeœli jest to ostatni znak
+  w linii. Mo¿na równie¿ u¿ywaæ komentarzy: wszystkie znaki  od  '|'  do  koñca  linii  s¹
+  ignorowane.
+
+  W pliku .nam nale¿y umieœciæ nazwy i definicje atrybutów i klas decyzyjnych.
+  Plik ten ma nastêpuj¹cy format:
+     - nazwy klas decyzyjnych oddzielone przecinkami
+     - opis kolejnych atrybutów w postaci:
+        - nazwa atrybutu
+        - dwukropek
+        - rodzaj atrybutu - mo¿emy podaæ:
+           - listê wartoœci dyskretnych (oddzielonych przecinkami)
+           - discrete n - atrybut dyskretny o n wartoœciach
+           - continuous - atrybut ci¹g³y
+           - ignore     - atrybut ignorowany (nie u¿ywany)
+
+  W pliku .dat podajemy opisy kolejnych przypadków w  zbiorze  treningowym.  Opis  ka¿dego
+  przypadku  sk³ada  siê  z  wartoœci  kolejnych  atrybutów (oddzielonych przecinkami), po
+  których nastêpuje nazwa klasy decyzyjnej.
+
+  Oprócz danych treningowych mo¿emy równie¿ stworzyæ plik z danymi  testowymi  -  dane  te
+  zapisujemy w pliku o takiej samej nazwie ale z rozszerzeniem .tst (format pliku taki sam
+  jak pliku .dat). Jeœli w katalogu znajduje  siê  plik  .tst,  zostaje  on  automatycznie
+  wczytany przy ³adowaniu danych.
+
+Data/Quit
+---------
+
+  Wyjœcie z programu.
+
+Tree/Generate
+-------------
+
+  Wygenerowanie jednego lub wielu drzew decyzyjnych z danych w zbiorze treningowym.
+
+  Po  wybraniu  tej  opcji  ukazuje  siê  okno  dialogowe,  w  którym  podajemy  parametry
+  generowania drzew:
+
+  - Criterion
+    Kryterium u¿ywane do wyboru atrybutu w wêŸle drzewa
+
+  - Subseting
+    Powoduje, ¿e dla atrybutów dyskretnych nast¹pi próba po³¹czenia  kilku  wartoœci  w  1
+    grupê
+
+  - Probabilistic thresholds
+    Powoduje, ¿e dla atrybutów ci¹g³ych nast¹pi  próba  zmiany  progów,  wzglêdem  których
+    porównywane  s¹  wartoœci  atrybutu,  na  przedzia³y.  Przedzia³ ten okreœlany jest za
+    pomoc¹ 3 liczb zapisywanych jako  cut[lower,upper]  i  mo¿e  byæ  interpretowany  jako
+    liczba   rozmyta,  dla  której  prawdopodobieñstwo  przyjêcia  wartoœci  z  przedzia³u
+    <lower,cut> jest równe prawdopodobieñstwu przyjêcia wartoœci z przedzia³u <cut,upper>.
+
+  - Pruning confidence level
+    Wartoœæ steruj¹ca obcinaniem ga³êzi w procesie postpruning.  Im  ni¿sza  wartoœæ,  tym
+    wiêksza redukcja rozmiaru drzewa.
+
+  - Minimum objects
+    Minimalna liczba obiektów, na  podstawie  których  generowany  jest  liœæ  w  drzewie.
+    Podanie wiêkszej wartoœci uniemo¿liwia generowanie rozbudowanych drzew dopasowanych do
+    bardzo ma³ej liczby przyk³adów.
+
+  - Windowing
+    Powoduje u¿ycie techniki windowing do generowania drzewa.  Podczas  uczenia  nie  jest
+    brany  pod uwagê ca³y zbiór treningowy, lecz tylko jego czêœæ. Po wygenerowaniu drzewa
+    do zbioru ucz¹cego dodawana jest czêœæ jeszcze nie wykorzystanych  przypadków  -  nowe
+    przypadki  s¹ oceniane i jeœli s¹ klasyfikowane b³êdnie, nastêpuje modyfikacja drzewa.
+    Proces powtarzany  jest  tak  d³ugo,  a¿  u¿yje  siê  wszystkie  przypadki  ze  zbioru
+    treningowego.
+
+  - Trials
+    Ustawia liczbê drzew generowanych z  u¿yciem  techniki  windowing.  Poniewa¿  elementy
+    dodawane  do  podzbioru  ucz¹cego s¹ losowane, ka¿da próba generowania drzewa mo¿e daæ
+    inne wyniki. Proces uczenia z technik¹ windowing jest nieco wolniejszy ni¿  normalnie,
+    ale najlepsze wygenerowane drzewo jest zazwyczaj lepsze, ni¿ bez u¿ycia tej techniki.
+
+  - Initial window size
+    Pocz¹tkowy rozmiar podzbioru ucz¹cego; podanie wartoœci 0 powoduje automatyczny  dobór
+    tej wielkoœci
+
+  - Window increment
+    Liczba elementów  dodawanych  do  podzbioru  ucz¹cego;  podanie  wartoœci  0  powoduje
+    automatyczny dobór tej wielkoœci
+
+  Po wygenerowaniu drzewa w g³ównym oknie pojawia siê tabelka z nastêpuj¹cymi kolumnami:
+
+  - Tree                 - numer drzewa
+  - Before pruning       - informacje o drzewie nieuproszczonym:
+    - Size                  - rozmiar drzewa (liczba wêz³ów)
+    - Errors                - liczba i procent b³êdów w zbiorze treningowym
+    - Errors (test)         - liczba i procent b³êdów w zbiorze testowym
+  - After pruning        - informacje o drzewie uproszczonym:
+    - Size                  - rozmiar drzewa (liczba wêz³ów)
+    - Errors                - liczba i procent b³êdów w zbiorze treningowym
+    - Errors (test)         - liczba i procent b³êdów w zbiorze testowym
+    - Estimate              - pesymistyczne oszacowanie procentu pope³nianych b³êdów
+
+  Bardziej szczegó³owe informacje na  temat  konkretnego  drzewa  uzyskamy  po  klikniêciu
+  myszk¹  w  okreœlonym  wierszu  tabelki.  Pojawi¹  siê wówczas dodatkowe 3 (lub 4, jeœli
+  dostêpny by³ zbiór testowy) okienka:
+
+  - drzewo nieuproszczone
+  - drzewo uproszczone
+  - macierz pomy³ek na zbiorze treningowym
+  - macierz pomy³ek na zbiorze testowym (o ile zbiór ten jest dostêpny)
+
+  Pierwsze 2 okienka zawieraj¹ drzewa wyœwietlone w ³atwej do przegl¹dania postaci. Za ich
+  pomoc¹  mo¿na  "rêcznie"  dokonywaæ  klasyfikacji nowych przypadków, klikaj¹c kolejno na
+  odpowiednie wêz³y i rozwijaj¹c w ten sposób kolejne poddrzewa.  Dodatkowo,  klikaj¹c  na
+  wybranym  wêŸle  mo¿emy wyœwietliæ bardziej szczegó³owe informacje dotycz¹ce tego wêz³a.
+  Informacje te s¹ wyœwietlane w prawej czêœci okna. S¹ to:
+
+  - Items              - Liczba  elementów,  na  podstawie  których  wygenerowane  zosta³o
+                         poddrzewo z wybranego wêz³a
+  - Errors             - Liczba b³êdów jaka by powsta³a, gdyby drzewo  uci¹æ  na  wybranym
+                         wêŸle. Wartoœæ ta jest u¿ywana przez C4.5 podczas postpruningu.
+  - Estimate           - Pesymistyczne oszacowanie procentu b³êdów,  jakie  s¹  pope³nione
+                         gdy klasyfikowany element przechodzi przez wybrany wêze³.
+  - Class distribution - Rozk³ad klas decyzyjnych  w  przypadkach,  na  podstawie  których
+                         wygenerowane zosta³o poddrzewo z wybranego wêz³a
+  - Decision           - Decyzja, czyli klasa, która wystêpuje najliczniej w  przypadkach,
+                         na  podstawie  których wygenerowane zosta³o poddrzewo z wybranego
+                         wêz³a.
+
+  Kolejne 2 okienka to macierze pomy³ek - pokazuj¹ one, ile  razy  przypadki  nale¿¹ce  do
+  danej  klasy  decyzyjnej  by³y  klasyfikowane przez drzewo jako kolejne klasy decyzyjne.
+  Wiersze tej macierzy odpowiadaj¹ oryginalnym klasom przypadków, a  kolumny  -  decyzjom,
+  jakie  zosta³y  podjête  przez  drzewo.  Na przeciêciu wiersza i z kolumn¹ j pojawia siê
+  liczba elementów z klasy i-tej, które zosta³y zaklasyfikowane do klasy j-tej. Suma liczb
+  na  przek¹tnej  odpowiada  liczbie  poprawnych  klasyfikacji,  suma  pozosta³ych liczb -
+  liczbie klasyfikacji nieprawid³owych.
+
+Tree/Cross-validation
+---------------------
+
+  Wygenerowanie drzew decyzyjnych i test cross-validation.
+
+  Po wybraniu tej opcji ukazuje siê okno dialogowe, w którym podajemy:
+  - parametry generowania drzew (jak dla opcji Tree/Generate)
+  - parametry generowania regu³ (jak dla opcji Rules/Generate)
+  - liczbê podzia³ów zbioru treningowego
+  - sposób przeprowadzenia testu (generowanie tylko drzew lub drzew i regu³)
+  
+  Uwaga! Do generowania drzew nie mo¿na w tym przypadku u¿ywaæ opcji windowing!
+
+  Cross-validacja polega na podziale zbioru treningowego na n podzbiorów  o  mniej  wiêcej
+  takich  samych rozmiarach i takich samych dystrybucjach klas. Nastêpnie przeprowadza siê
+  n prób  generacji  drzewa;  w  ka¿dej  próbie  u¿ywa  siê  n-1  podzbiorów  jako  zbioru
+  treningowego  oraz  1  podzbioru  jako  zbioru  testowego.  Uzyskane w ten sposób wyniki
+  uœrednia siê - otrzymujemy w  ten  sposób  stosunkowo  miarodajne  oszacowanie  procentu
+  b³êdów pope³nianych przez drzewo wygenerowane na podstawie ca³ego zbioru ucz¹cego.
+  Jeœli w opcjach zaznaczymy równie¿ generowanie regu³, dla ka¿dej próby nast¹pi wygenero-
+  wanie regu³ z otrzymanego drzewa i bie¿¹cego podzbioru treningowego i przetestowanie ich
+  na bie¿¹cym podzbiorze testowym.
+
+  Uwaga! Podczas cross-validacji dane ze zbioru testowego s¹ ignorowane!
+
+  Wyniki dzia³ania tej opcji  przedstawiane  s¹  w  tabelce  identycznej,  jak  dla  opcji
+  Tree/Generate. Ponadto, jeœli wybierzemy generowanie regu³, pojawi siê dodatkowe okienko 
+  z wynikami cross-validacji dla regu³.
+  
+Tree/Load
+---------
+
+  Wczytanie drzewa decyzyjnego.
+
+  Po wybraniu tej opcji nale¿y wybraæ plik z (zapisanym wczeœniej)  wygenerowanym  drzewem
+  (plik  z  rozszerzeniem .tre). Oprócz pliku .tre w tym samym katalogu musi siê znajdowaæ
+  plik o takiej samej nazwie, ale z rozszerzeniem .nam (plik ten zawiera opis atrybutów  i
+  klas decyzyjnych).
+
+Tree/Save
+---------
+
+  Zapis drzewa decyzyjnego do pliku.
+
+  Po wybraniu tej opcji nastêpuje zapisanie aktualnie wybranego drzewa do pliku. Plik  ten
+  bêdzie  mia³  tak¹  sam¹ nazwê, jak plik z danymi, ale z rozszerzeniem .tre. Plik ten ma
+  postaæ binarn¹.
+
+  Uwaga! Aktualnie wybranym drzewem jest  to  drzewo  uproszczone  (pruned),  dla  którego
+         odpowiadaj¹cy w tabelce wiersz jest podœwietlony.
+
+  Uwaga! Aby móc póŸniej wczytaæ tak utworzone drzewo, potrzebny jest plik z rozszerzeniem
+         .nam, zawieraj¹cy opis atrybutów i klas decyzyjnych!
+
+Tree/Save as text/Unpruned tree
+Tree/Save as text/Pruned tree
+Tree/Save as text/Both trees
+-------------------------------
+
+  Zapis drzewa decyzyjnego do pliku w formacie tekstowym.
+
+  Po wybraniu jednej z powy¿szych opcji ukazuje siê okno  dialogowe,  w  którym  wybieramy
+  nazwê   pliku,  w  którym  zostanie  zapisanie  aktualnie  wybrane  drzewo  (odpowiednio
+  nieuproszczone, uproszczone lub oba).
+
+  Uwaga! Aktualnie wybranym drzewem jest to drzewo, dla którego  odpowiadaj¹cy  w  tabelce
+         wiersz jest podœwietlony.
+
+Tree/Consult
+------------
+
+  Klasyfikacja przypadków z u¿yciem wygenerowanego drzewa.
+  
+  Po wybraniu tej opcji ukazuje siê tabelka zawieraj¹ca 2 kolumny.  W  pierwszej  kolumnie
+  wypisane  s¹  nazwy  wszystkich  atrybutów,  a w drugiej - ich wartoœci. Poni¿ej tabelki
+  znajduj¹ siê 2 przyciski: Consult - klasyfikacja  przyk³adu,  oraz  Close  -  powrót  do
+  innych opcji programu.
+  
+  Zmiana wartoœci atrybutów
+  -------------------------
+  
+  Aby zmieniæ  wartoœæ  jakiegoœ  atrybutu  nale¿y  klikn¹æ  lewym  przyciskiem  myszki  w
+  odpowiednim  polu  tabelki. Wówczas - w zale¿noœci od charakteru atrybutu (dyskretny lub
+  ci¹g³y) - pojawi siê nowe okienko dialogowe, w którym  bêdziemy  mogli  wprowadziæ  opis
+  atrybutu.
+   
+  Dla atrybutu dyskretnego w oknie dialogowym znajduje siê tabelka z wypisanymi wszystkimi
+  mo¿liwymi  wartoœciami  tego  atrybutu. Przy ka¿dej wartoœci znajduje siê pole, w którym
+  nale¿y  wpisaæ  prawdopodobieñstwo  przyjêcia  przez  atrybut  danej   wartoœci.   Jeœli
+  prawdopodobieñstwo to jest równe zero, pole mo¿na pozostawiæ puste. Jeœli wszystkie pola
+  pozostawimy puste, oznacza to, ¿e atrybut jest nieznany. Dwukrotne  klikniêcie  w  danym
+  polu  powoduje  wpisanie  doñ wartoœci 1 i wyzerowanie pozosta³ych pól (czyli okreœlenie
+  wartoœci atrybutu w sposób deterministyczny).
+  
+  Uwaga! Jeœli suma prawdopodobieñstw jest ró¿na od 1, przy opuszczeniu okienka  wszystkie
+         prawdopodobieñstwa s¹ automatycznie  mno¿one  przez  ten  sam  czynnik  tak,  aby
+         uzyskaæ  sumê równ¹ 1. Wartoœci prawdopodobieñstw nie musz¹ byæ z przedzia³u od 0
+         do 1  (musz¹  jednak  byæ  dodatnie!)  -  umo¿liwia  to  wprowadzanie  wzglêdnych
+         stosunków prawdopodobieñstw zamiast samych prawdopodobieñstw.
+  
+  Dla atrybutu ci¹g³ego pojawia siê  okienko  z  dwoma  polami  edycyjnymi:  lowerbound  i
+  upperbound.  Jeœli  chcemy  wprowadziæ  konkretn¹  wartoœæ  liczbow¹, nale¿y wpisaæ j¹ w
+  pierwszym polu, a drugie zostawiæ puste. Jeœli  chcemy  wprowadziæ  przedzia³  mo¿liwych
+  wartoœci,  koñce  przedzia³ów  wpisujemy do obu pól. Jeœli podamy lowerbound>upperbound,
+  wartoœci te zostan¹ zamienione miejscami. Gdy wartoœæ atrybutu jest nieznana, nale¿y oba
+  pola pozostawiæ puste.
+  
+  Klasyfikacja
+  ------------
+  
+  Po wciœniêciu przycisku Consult  dokonywana  jest  klasyfikacja  elementu,  a  nastêpnie
+  wyœwietlana  jest  decyzja oraz pytanie: "Do you want to see details?". Jeœli wybierzemy
+  Yes, bêdziemy mogli obejrzeæ wiêcej szczegó³ów dotycz¹cych decyzji. Pojawi  siê  wówczas
+  tabelka  ze  wszystkimi  klasami  decyzyjnymi,  a  przy  ka¿dej klasie pojawi siê liczba
+  okreœlaj¹ca prawdopodobieñstwo, ¿e przypadek nale¿y do danej klasy, oraz -  dodatkowo  -
+  dolne  i  górne  oszacowanie tej wartoœci, obliczone na podstawie oszacowania (estimate)
+  przechowywanego w wêŸle drzewa.
+    
+  Klasyfikacja przypadku polega na wyliczeniu wartoœci elementów 2 tablic:  ClassSum  oraz
+  LowClassSum.  Indeksami  tych  elementów s¹ kolejne klasy decyzyjne. ClassSum[c] okreœla
+  prawdopodobieñstwo tego, ¿e przypadek nale¿y do  klasy  c,  natomiast  LowClassSum[c]  -
+  dolne  oszacowanie.  Górne oszacowanie wylicza siê odejmuj¹c od wartoœci 1 sumê wartoœci
+  LowClassSum dla wszystkich pozosta³ych klas.
+  
+  Poni¿ej opisany jest sposób obliczania ClassSum i LowClassSum.
+  
+  W przypadku, gdy w ka¿dym wêŸle mamy  jednoznaczny  wybór,  dochodzimy  do  1  liœcia  -
+  wówczas  decyzj¹  jest  oczywiœcie  klasa  decyzyjna  tego  liœcia. Ka¿dy liœæ w drzewie
+  decyzyjnym odpowiada pewnej  liczbie  przypadków  ze  zbioru  ucz¹cego.  Ze  wzglêdu  na
+  obcinanie  drzewa  (postpruning)  a  tak¿e na mo¿liwoœæ istnienia sprzecznoœci w zbiorze
+  ucz¹cym, przyk³ady te mog¹ nale¿eæ do ró¿nych klas decyzyjnych. ClassSum[c] oblicza  siê
+  jako   stosunek   liczby   przyk³adów   z   klasy  c  do  liczby  wszystkich  przyk³adów
+  (odpowiadaj¹cych danemu liœciowi), a LowClassSum - dla klasy  odpowiadaj¹cej  decyzji  w
+  liœciu  jako  stosunek  liczby  przyk³adów dobrze zaklasyfikowanych do liczby wszystkich
+  przyk³adów (w pruned: 1-errorEstimate [M.K.]), a dla pozosta³ych klas - jako 0.
+  
+  W przypadku probabilistycznym w wêŸle, w którym  zaistnia³a  niejednoznacznoœæ  dokonuje
+  siê  "podzia³u" przypadku na kilka podprzypadków z deterministycznie okreœlon¹ wartoœci¹
+  danego atrybutu i ka¿dy z tych  podprzypadków  klasyfikuje  siê  osobno.  Nastêpnie  dla
+  uzyskanych w ten sposób wartoœci ClassSum i LowClassSum oblicza siê œredni¹ wa¿on¹.
+  
+  Podobnie postêpuje siê, gdy nie jest znana  wartoœæ  jakiegoœ  atrybutu.  Przyjmuje  siê
+  wówczas  wartoœæ  probabilistyczn¹  o  rozk³adzie  takim,  jaki mia³y elementy ze zbioru
+  ucz¹cego odpowiadaj¹ce danemu wêz³u w drzewie decyzyjnym.
+  
+Rules/Generate
+--------------
+
+  Wygenerowanie regu³ decyzyjnych.
+  
+  Po  wybraniu  tej  opcji  ukazuje  siê  okno  dialogowe,  w  którym  podajemy  parametry
+  generowania regu³:
+
+  - Pruning confidence level
+    Wartoœæ steruj¹ca liczb¹ i rozmiarem regu³. Im ni¿sza wartoœæ, tym mniejsza  liczba  i
+    rozmiar regu³.
+    
+  - Redundancy factor
+    Wspó³czynnik u¿ywany przy okreœlaniu przydatnoœci atrybutów.
+    
+  - Fisher's significance test
+    Przy wyborze regu³ u¿yty zostanie test Fishera z podan¹ wartoœci¹ progu.
+  
+  Po wygenerowaniu regu³ pojawia siê dodatkowe okno wypisanymi  regu³ami,  klas¹  domyœln¹
+  (default class) oraz liczb¹ i procentem b³edów klasyfikacj w zbiorze ucz¹cym i testowym.
+  Po klikniêciu w dowolnym miejscu wewn¹trz okienka pojawiaj¹ siê 2 dodatkowe okna (lub 1,
+  jeœli  brak  jest  zbioru  testowego) z macierzami pomy³ek (confusion matrix) dla zbioru
+  ucz¹cego i testowego.
+  
+Rules/Load
+----------
+
+  Wczytanie regu³ decyzyjnych.
+
+  Po wybraniu tej  opcji  nale¿y  wybraæ  plik  z  (zapisanymi  wczeœniej)  wygenerowanymi
+  regu³ami  (plik  z  rozszerzeniem .rul). Oprócz pliku .rul w tym samym katalogu musi siê
+  znajdowaæ plik o takiej samej nazwie, ale z rozszerzeniem .nam (plik  ten  zawiera  opis
+  atrybutów i klas decyzyjnych).
+
+Rules/Save
+----------
+
+  Zapis regu³ decyzyjnych do pliku.
+
+  Po wybraniu tej opcji nastêpuje zapisanie regu³ do pliku. Plik ten bêdzie mia³ tak¹ sam¹
+  nazwê, jak plik z danymi, ale z rozszerzeniem .rul. Plik ten ma postaæ binarn¹.
+
+Rules/Save as text
+------------------
+
+  Zapis regu³ decyzyjnych do pliku w formacie tekstowym.
+
+  Po wybraniu powy¿szej opcji ukazuje siê okno dialogowe, w którym wybieramy nazwê  pliku,
+  w którym zostan¹ zapisane regu³y.
+
+Rules/Consult
+-------------
+
+  Klasyfikacja przypadków z u¿yciem regu³.
+  
+  Po wybraniu tej opcji ukazuje siê tabelka zawieraj¹ca 2 kolumny.  W  pierwszej  kolumnie
+  wypisane  s¹  nazwy  wszystkich  atrybutów,  a w drugiej - ich wartoœci. Poni¿ej tabelki
+  znajduj¹ siê 2 przyciski: Consult - klasyfikacja  przyk³adu,  oraz  Close  -  powrót  do
+  innych opcji programu.
+  
+  Zmiana wartoœci atrybutów
+  -------------------------
+  
+  Aby zmieniæ  wartoœæ  jakiegoœ  atrybutu  nale¿y  klikn¹æ  lewym  przyciskiem  myszki  w
+  odpowiednim  polu  tabelki. Wówczas - w zale¿noœci od charakteru atrybutu (dyskretny lub
+  ci¹g³y) - pojawi siê nowe okienko dialogowe, w którym  bêdziemy  mogli  wprowadziæ  opis
+  atrybutu.
+   
+  Dla atrybutu dyskretnego w oknie dialogowym znajduje siê tabelka z wypisanymi wszystkimi
+  mo¿liwymi  wartoœciami  tego  atrybutu. Przy ka¿dej wartoœci znajduje siê pole, w którym
+  nale¿y  wpisaæ  prawdopodobieñstwo  przyjêcia  przez  atrybut  danej   wartoœci.   Jeœli
+  prawdopodobieñstwo to jest równe zero, pole mo¿na pozostawiæ puste. Jeœli wszystkie pola
+  pozostawimy puste, oznacza to, ¿e atrybut jest nieznany. Dwukrotne  klikniêcie  w  danym
+  polu  powoduje  wpisanie  doñ wartoœci 1 i wyzerowanie pozosta³ych pól (czyli okreœlenie
+  wartoœci atrybutu w sposób deterministyczny).
+  
+  Uwaga! Jeœli suma prawdopodobieñstw jest ró¿na od 1, przy opuszczeniu okienka  wszystkie
+         prawdopodobieñstwa s¹ automatycznie  mno¿one  przez  ten  sam  czynnik  tak,  aby
+         uzyskaæ  sumê równ¹ 1. Wartoœci prawdopodobieñstw nie musz¹ byæ z przedzia³u od 0
+         do 1  (musz¹  jednak  byæ  dodatnie!)  -  umo¿liwia  to  wprowadzanie  wzglêdnych
+         stosunków prawdopodobieñstw zamiast samych prawdopodobieñstw.
+  
+  Dla atrybutu ci¹g³ego pojawia siê  okienko  z  dwoma  polami  edycyjnymi:  lowerbound  i
+  upperbound.  Jeœli  chcemy  wprowadziæ  konkretn¹  wartoœæ  liczbow¹, nale¿y wpisaæ j¹ w
+  pierwszym polu, a drugie zostawiæ puste. Jeœli  chcemy  wprowadziæ  przedzia³  mo¿liwych
+  wartoœci,  koñce  przedzia³ów  wpisujemy do obu pól. Jeœli podamy lowerbound>upperbound,
+  wartoœci te zostan¹ zamienione miejscami. Gdy wartoœæ atrybutu jest nieznana, nale¿y oba
+  pola pozostawiæ puste.
+  
+  Klasyfikacja
+  ------------
+  
+  Po wciœniêciu przycisku Consult  dokonywana  jest  klasyfikacja  elementu,  a  nastêpnie
+  wyœwietlana  jest  decyzja oraz prawdopodobieñstwo tego, ¿e przypadek nale¿y do wybranej
+  klasy. Jeœli ¿adna regu³a nie mog³a byæ u¿yta, jako odpowied¿ dostajemy  klasê  domyœln¹
+  (default class).
+  
+  Uwaga! Gdy do przypadku  pasuje  wiêcej  regu³  decyzyjnych  przyporz¹dkowuj¹cych  ró¿ne
+         decyzje, wybierana jest  regu³a  o  najwiêkszym  wspó³czynniku  trafnoœci.  Jeœli
+         przypadek  zawiera  nieznane  wartoœci  atrybutów,  pomija  siê  wszystkie regu³y
+         zawieraj¹ce te atrybuty. Gdy  przypadek  jest  niedeterministyczny,  wybiera  siê
+         wszystkie    pasuj¹ce   regu³y,   mno¿¹c   ich   wspó³czynnik   trafnoœci   przez
+         prawdopodobieñstwo danej wartoœci atrybutu, przy czym nie bierze  siê  pod  uwagê
+         regu³, dla których uzyska siê wartoœæ tego wspó³czynnika poni¿ej 0.5

@@ -1,0 +1,390 @@
+                   Projektowanie systemów wspomagania decyzji
+
+                                  Piotr Cichy
+
+           Implementacja pakietu C4.5 w œrodowiskach MS-DOS i WINDOWS
+
+
+
+1. Programy wykonywalne wchodz¹ce w sk³ad pakietu C4.5
+
+Pakiet C4.5 w wersji dla systemu UNIX sk³ada siê z nastêpuj¹cych programów:
+
+  - c4.5              - generator drzew decyzyjnych
+  - c4.5rules         - generator regu³ decyzyjnych
+  - consult           - klasyfikacja za pomoc¹ drzewa wygenerowanego przez c4.5
+  - consultr          - klasyfikacja za pomoc¹ regu³ wygenerowanych przez c4.5rules
+  - xval.sh           - skrypt unixowy dokonuj¹cy cross-validacji
+  - average,xval-prep - programy pomocnicze wykorzystywane przez xval.sh
+
+Ponadto w sk³ad pakietu wchodz¹ pliki pomocy oraz kody Ÿród³owe (dla systemu UNIX).
+
+
+2. Implementacja dla œrodowiska MS-DOS.
+
+Pakiet C4.5 w wersji dla systemu DOS sk³ada siê z nastêpuj¹cych programów:
+
+  - c45.exe           - generator drzew decyzyjnych
+  - c45rules.exe      - generator regu³ decyzyjnych
+  - consult.exe       - klasyfikacja za pomoc¹ drzewa wygenerowanego przez c4.5
+  - consultr.exe      - klasyfikacja za pomoc¹ regu³ wygenerowanych przez c4.5rules
+
+Oryginalne pliki pomocy (w formacie manual) zosta³y  przekszta³cone  do  formatu  zwyk³ego
+pliku tekstowego.
+
+Sposób obs³ugi programów jest identyczny jak w systemie UNIX. W  stosunku  do  oryginalnej
+wersji UNIXowej wprowadzone zosta³y nastêpuj¹ce zmiany:
+
+  - Rozszerzenia plików u¿ywanych przez C4.5 zosta³y skrócone do 3 znaków:
+
+      names     ->     nam
+      datas     ->     dat
+      test      ->     tst
+      unpruned  ->     unp
+      tree      ->     tre
+      rules     ->     rul
+
+  - Dane tekstowe (pliki z rozszerzeniami names, datas i  test)  mog¹  jako  znaków  koñca
+    linii u¿ywaæ sekwencji znaków CR LF (konwencja systemu  MS-DOS)  lub  tylko  znaku  LF
+    (konwencja systemu UNIX)
+
+  - Uwaga: binarne pliki (z rozszerzeniami unpruned, tree i rules) nie s¹ przenaszalne.
+
+Kod Ÿród³owy programów dla systemu MS-DOS znajduje siê w nastêpuj¹cych plikach:
+
+  - c45.c             - generator drzew decyzyjnych
+  - c45rules.c        - generator regu³ decyzyjnych
+  - consult.c         - klasyfikacja za pomoc¹ drzewa wygenerowanego przez c4.5
+  - consultr.c        - klasyfikacja za pomoc¹ regu³ wygenerowanych przez c4.5rules
+
+Wszystkie w.w.  programy  mo¿na  skompilowaæ  bezpoœrednio,  bez  potrzeby  korzystania  z
+narzêdzi  typu  make  -  ¿aden  z  programów nie potrzebuje dodatkowych plików z wyj¹tkiem
+standardowych bibliotek ANSI C.
+
+Pliki te zosta³y utworzone na podstawie kodów Ÿród³owych  dla  systemu  UNIX.  Kod  zosta³
+przet³umaczony  wg  standardu  ANSI C, nie wykorzystuje on ¿adnych bibliotek specyficznych
+dla systemu MS-DOS.
+
+W porównaniu z wersj¹ dla systemu UNIX wprowadzone zosta³y m.in. nastêpuj¹ce zmiany:
+
+  - wszystkie pliki zosta³y po³¹czone w 4 pliki (po jednym dla ka¿dego programu) - u³atwia
+    to kompilacjê programów (oryginalnie kod ¿ród³owy sk³ada³ siê z  wielu  plików,  które
+    nale¿a³o kompilowaæ i linkowaæ narzêdziem make)
+  
+  - ca³y kod zosta³ przerobiony z jêzyka C "w starym stylu" na "nowy styl"
+  
+  - usuniête zosta³y wszystkie lokalne deklaracje funkcji (tzn. deklaracje wewn¹trz innych
+    funkcji, deklarowane tak, jak zmienne lokalne)
+  
+  - funkcje zosta³y u³o¿one w takiej kolejnoœci, aby definicja funkcji mia³a miejsce przed
+    jej pierwszym wywo³aniem (w starym C kolejnoœæ definiowania funkcji mog³a byæ dowolna,
+    ale wy³¹czana jest wówczas kontrola poprawnoœci liczby i typów argumentów)
+  
+  - dla funkcji, które wywo³uj¹ siê nawzajem (rekurencyjnie) dodano odpowiednie daklaracje
+  
+  - zmienne globalne zosta³y zgrupowane w jednym miejscu
+  
+  - dokonano poprawek  niezbêdnych  do  prawid³owego  dzia³ania  w  systemie  MS-DOS  (np.
+    otwarcie plików binarnych do zapisu z parametrem "wb" zamiast "w", poniewa¿ w systemie
+    MS-DOS pliki tekstowe i binarne traktowane s¹ inaczej)
+  
+  - usuniête zosta³y nieu¿ywane zmienne
+  
+  - niektóre nazwy zosta³y zmienione tak, aby umo¿liwiæ kompilacjê w C++, np.
+       this   ->   This
+       class  ->   Class
+  
+  - Uwaga! W oryginalnej wersji znaleziony zosta³ przeze mnie b³¹d!
+    W funkcji SimAnneal nastêpuj¹ca linijka:
+            ri = RuleCount * Random + 1;
+    zosta³a zamieniona na:
+            ri = ( RuleCount - 1 ) * Random + 1;
+    Random w powy¿szej funkcji to makro zdefiniowane jako:
+            #define  Random  (rand()/(double)RAND_MAX)
+    czyli wylosowanie liczby double z zakresu od 0 do 1. Bez powy¿szej zmiany  zmienna  ri
+    przyjmowa³a losow¹ wartoœæ z przedzia³u od 1 do RuleCount+1 zamiast od 1 do RuleCount,
+    co powodowa³o, ¿e przy wylosowaniu wartoœci  RuleCount+1  nastêpowa³a  próba  czytania
+    spoza  tablicy.  Wyst¹pienie  b³êdu jest ma³o prawdopodobne, zdarzy³o siê ono jednak w
+    wersji dla systemu WINDOWS przy przetwarzaniu doœæ  du¿ego  zbioru  CRX  i  powodowa³o
+    zamkniêcie programu przez system z powodu nielegalnego dostêpu do pamiêci.
+  
+  - Ca³y kod Ÿród³owy podzielony zosta³ na  pewne  bloki.  Pocz¹tki  bloków  oznaczone  s¹
+    sekwencj¹  znaków  "/**/",  a  koñce - "///". Poniewa¿ sekwencje te traktowane s¹ jako
+    komentarze, w trakcie kompilacji zostan¹ one po prostu zignorowane. Celem podzia³u  na
+    bloki  jest  zwiêkszenie  czytelnoœci  kodu poprzez mo¿liwoœæ "zwiniêcia" bloku, czyli
+    wyœwietlenia innym kolorem tylko tekstu zawartego w pierwszej  linijce  takiego  bloku
+    (umo¿liwia to np. edytor GoldED dla komputera Amiga). Bloki tworz¹ miêdzy innymi:
+      - wszystkie  funkcje  (po zwiniêciu funkcji widzimy tylko ich nag³ówki zamiast ca³ej
+        treœci)
+      - grupy funkcji pochodz¹cych z tego samego pliku (po  zwiniêciu  pojawia  siê  nazwa
+        grupy jako komentarz)
+      - grupy plików wyodrêbnione w oryginalnym makefile
+      - definicje i makra (#define)
+      - inkludy (#include)
+      - definicje typów u¿ywanych w C4.5
+      - zmienne globalne
+
+
+3. Implementacja dla œrodowiska WINDOWS.
+
+Pakiet C4.5 w wersji dla systemu WINDOWS sk³ada siê z 1 programu  wykonywalnego  C4_5.exe.
+Do uruchomienia programu nie s¹ potrzebne ¿adne zewnêtrzne pliki, takie jak np. biblioteki
+DLL.
+
+Program umo¿liwia wykonywanie wszystkich operacji dostêpnych w pakiecie C4.5  dla  systemu
+UNIX.  Œrodowisko  okienkowe  pozwala na bardziej interakcyjn¹ wspó³pracê z programem (np.
+interakcyjne przegl¹danie drzew z mo¿liwoœci¹  zwijania  i  rozwijania  ga³êzi,  dialogowy
+sposób  wprowadzania  danych  o przypadkach w trybie konsultacji itp). Wprowadzone zosta³y
+równie¿ pewne rozszerzenia, np. wyœwietlanie bardziej szczegó³owych informacji o wêz³ach w
+wygenerowanych drzewach, mo¿liwoœæ obejrzenia macierzy pomy³ek nie tylko dla zbioru testo-
+wego, ale równie¿ ucz¹cego, i wiele innych.
+
+Do programu do³¹czona jest szczegó³owa instrukcja obs³ugi.
+
+Plik C4_5.exe zosta³ stworzony za pomoc¹ C++ Builder 3.0 firmy Borland.
+
+Kod Ÿród³owy programu sk³ada siê z 16 plików, przy czym wszystkie  funkcje  "obliczeniowe"
+u¿ywane  w  C4.5 znajduj¹ siê w pliku c45.cpp; pozosta³e pliki zawieraj¹ funkcje zajmuj¹ce
+siê obs³ug¹ interakcji z u¿ytkownikiem oraz funkcje dokonuj¹ce operacji okienkowych.
+
+Plik c45.cpp nie wykorzystuje ¿adnych bibliotek z wyj¹tkiem standardowych  bibliotek  ANSI
+C.  Jest  on  po³¹czeniem  4  plików Ÿród³owych w wersji dla MS-DOS, nale¿a³o w nim jednak
+dokonaæ  dosyæ  znacznych  modyfikacji  ze  wzglêdu  na  powsta³e  konflikty  oraz  zmianê
+charakteru  aplikacji z uruchamianej jednorazowo w trybie wsadowym na aplikacjê okienkow¹,
+w której mo¿na równolegle wykonywaæ wiele  funkcji.  Plik  ten  nie  zawiera  ju¿  funkcji
+main(),  zamiast  tego  sk³ada  siê  on ze zbioru funkcji, które dokonuj¹ ró¿nych obliczeñ
+zwi¹zanych z wczytywaniem danych,  generowaniem  drzew  i  regu³,  konsultowaniem  itd.  Z
+oryginalnych  funkcji  usuniête  zosta³y  wszystkie  operacje  zwi¹zane  z  komunikacj¹  z
+u¿ytkownikiem - ca³a komunikacja odbywa siê teraz poprzez  zmienne  globalne  i  parametry
+funkcji.
+
+Aby umo¿liwiæ wszystkie te zmiany nale¿a³o usun¹æ powsta³e konflikty.
+
+Najwiêcej konfliktów zwi¹zanych by³o z  po³¹czeniem  4  wczeœniej  wymienionych  plików  w
+jeden,  pojawi³y  siê  tu np. problemy typu istnienie zmiennych globalnych o takich samych
+nazwach ale ró¿nych przeznaczeniach - zosta³o to rozwi¹zane poprzez  proste  zmiany  nazw,
+np.
+  ClassFreq -> Class_Freq
+  Subset    -> SubSet 
+
+Innym problemem by³a koniecznoœæ stworzenia osobnych struktur danych dla zbioru testowego,
+gdy¿  oryginalnie  zarówno  dane ucz¹ce jak i testowe by³y wczytywane z pliku (niejako "na
+¿¹danie") do tych samych struktur; w œrodowisku okienkowym ka¿dorazowe wczytywanie na nowo
+tych samych danych z pliku jest raczej nie do przyjêcia.
+
+Ponadto w znacz¹cy sposób ograniczono wymianê danych  podczas  obliczeñ  poprzez  pliki  -
+poniewa¿  wszystkie komponenty aplikacji znajduj¹ siê jednoczeœnie w pamiêci, nie ma sensu
+przesy³ania ich poprzez pliki. Dziêki tej zmianie nie ma równie¿ problemu polegaj¹cego  na
+tym,  ¿e  niektóre  pliki  s¹  przez  ca³y czas pracy programu otwarte (w systemie WINDOWS
+zalecane jest, aby pliki nie by³y otwarte przez d³u¿szy czas!) Spowodowa³o to m.in. zmianê
+polegaj¹c¹  na tym, ¿e nie s¹ generowane ju¿ pliki z drzewami unpruned (*.unp), gdy¿ pliki
+te nie s¹ ju¿ potrzebne.
+
+Wprowadzono równie¿ mo¿liwoœæ zapisania drzew (zarówno pruned jak i unpruned) oraz regu³ w
+pliku tekstowym - w formie czytelnej dla cz³owieka.
+
+Oto krótki opis funkcji z pliku c45.cpp, które  u¿ywane  s¹  w  pozosta³ych  plikach  (ich
+deklaracje,  a  tak¿e  definicje  typów,  zmiennych  globalnych  itp. znajduj¹ siê w pliku
+c45.h):
+
+
+char* GetNames(char* FileName);
+
+  Wczytanie pliku z opisem atrybutów i klas decyzyjnych (plik z rozszerzeniem .nam).
+  
+  Wejœcie: FileName - nazwa pliku.
+  Wyjœcie: W przypadku b³edu - tekst opisuj¹cy rodzaj b³êdu, jeœli nie ma b³êdu zwracane
+           jest NULL.
+  
+char* GetData(char* FileName);
+
+  Wczytanie pliku z opisem przyk³adów ucz¹cych (plik z rozszerzeniem .dat).
+  Przyk³ady wczytywane s¹ do tablicy Item od indeksu 0 do MaxItem.
+
+  Wejœcie: FileName - nazwa pliku.
+  Wyjœcie: W przypadku b³edu - tekst opisuj¹cy rodzaj b³êdu, jeœli nie ma b³êdu zwracane
+           jest NULL.
+
+char* GetTest(char* FileName);
+
+  Wczytanie pliku z opisem przyk³adów testowych (plik z rozszerzeniem .tst).
+  Przyk³ady wczytywane s¹ do tablicy Item od indeksu MaxItem+1 do MaxTestItem.
+
+  Wejœcie: FileName - nazwa pliku.
+  Wyjœcie: W przypadku b³edu - tekst opisuj¹cy rodzaj b³êdu, jeœli nie ma b³êdu zwracane
+           jest NULL.
+
+char* GetTree(char* FileName);
+
+  Wczytanie pliku z drzewem (plik z rozszerzeniem .tre).
+  WskaŸnik na drzewo zwracany jest w zmiennej DecisionTree (typu Tree).
+
+  Wejœcie: FileName - nazwa pliku.
+  Wyjœcie: W przypadku b³edu - tekst opisuj¹cy rodzaj b³êdu, jeœli nie ma b³êdu zwracane
+           jest NULL.
+
+char* GetRules(char* FileName);
+
+  Wczytanie pliku z regu³ami (plik z rozszerzeniem .rul).
+  Regu³y s¹ wczytywane do tablicy Rule.
+
+  Wejœcie: FileName - nazwa pliku.
+  Wyjœcie: W przypadku b³edu - tekst opisuj¹cy rodzaj b³êdu, jeœli nie ma b³êdu zwracane
+           jest NULL.
+
+char* SaveTree(char* FileName);
+
+  Zapis drzewa do pliku.
+  Zapisywane jest drzewo wskazywane przez zmienn¹ DecisionTree.
+
+  Wejœcie: FileName - nazwa pliku.
+  Wyjœcie: W przypadku b³edu - tekst opisuj¹cy rodzaj b³êdu, jeœli nie ma b³êdu zwracane
+           jest NULL.
+  
+char* SaveRules(char* FileName);
+
+  Zapis regu³ do pliku.
+  Zapisywany jest bie¿¹cy zestaw regu³.
+
+  Wejœcie: FileName - nazwa pliku.
+  Wyjœcie: W przypadku b³edu - tekst opisuj¹cy rodzaj b³êdu, jeœli nie ma b³êdu zwracane
+           jest NULL.
+
+char* SaveTreesAsText(Tree Unpruned, Tree Pruned, char* FileName);
+
+  Zapis drzew do pliku w formacie tekstowym.
+
+  Wejœcie: Unpruned - wskaŸnik na drzewo nieuproszczone.
+           Pruned   - wskaŸnik na drzewo uproszczone.
+           FileName - nazwa pliku.
+  Wyjœcie: W przypadku b³edu - tekst opisuj¹cy rodzaj b³êdu, jeœli nie ma b³êdu zwracane
+           jest NULL.
+  
+  Uwaga! Mo¿na zapisaæ tylko  drzewo  nieuproszczone  lub  tylko  uproszczone  jeœli  jako
+         odpowiedni wskaŸnik podamy NULL.
+         
+short GenTree(void);
+
+  Wygenerowanie drzew decyzyjnych.
+
+  Drzewa  s¹  generowane  do  tablic  Raw  (drzewa  nieuproszczone)   i   Pruned   (drzewa
+  uproszczone). Do tablic ConfMat1 i ConfMat2 zapisywane s¹ macierze pomy³ek dla kolejnych
+  drzew (odpowiednio na zbiorze treningowym i testowym).
+  
+  Wejœcie: Parametry podajemy w nastêpuj¹cych zmiennych globalnych:
+           GAINRATIO  - rodzaj kryterium (true=gain ratio, false=info gain)
+           SUBSET     - czy u¿yæ subseting?
+           PROBTHRESH - czy u¿yæ probabilistycznych progów
+           CF         - pruning confidence level
+           MINOBJS    - minimalna liczba elementów w ka¿dym poddrzewie
+           WINDOWING  - czy u¿yæ techniki windowing?
+           TRIALS     - iloœæ prób w technice windowing
+           WINDOW     - pocz¹tkowy rozmiar okna 
+           INCREMENT  - liczba elementów dodawanych do okna
+  Wyjœcie: Numer najlepszego drzewa.
+
+  W trakcie dzia³ania funkcja wywo³uje 2 funkcje, które nale¿y napisaæ samemu:
+  
+  void Status(char* status);
+  void ShowTreeInfo(int tree, int size, int errors1,int errors2,
+                    int p_size, int p_errors1, int p_errors2, float estimate);
+  
+  Status         - wyœwietla informacjê o stopniu zaawansowania obliczeñ
+  ShowTreeInfo   - wyœwietla informacjê o drzewie; znaczenie parametrów:
+                   tree      - numer drzewa
+                   size      - drzewo unpruned: rozmiar
+                   errors1   - drzewo unpruned: liczba b³êdów w zbiorze treningowym
+                   errors2   - drzewo unpruned: liczba b³êdów w zbiorze testowym
+                   p_size    - drzewo pruned:   rozmiar drzewa unpruned
+                   p_errors1 - drzewo pruned:   liczba b³êdów w zbiorze treningowym
+                   p_errors2 - drzewo pruned:   liczba b³êdów w zbiorze testowym
+                   estimate  - drzewo pruned:   oszacowanie procentu b³êdów
+  
+void  GenRules(void);
+
+  Wygenerowanie regu³ decyzyjnych.
+  Do tablic ConfMat3 i ConfMat4 zapisywane s¹  macierze  pomy³ek  odpowiednio  na  zbiorze
+  treningowym i testowym.
+
+  Wejœcie: Parametry podajemy w nastêpuj¹cych zmiennych globalnych:
+           CF         - confidence level
+           SIGTEST    - czy u¿yæ test Fishera?
+           SIGTHRESH  - próg dla testu Fishera
+           REDUNDANCY - redundancy factor
+
+  W trakcie dzia³ania funkcja  wywo³uje  funkcjê  Status,  która  wyœwietla  informacjê  o
+  stopniu   zaawansowania  obliczeñ  i  któr¹  nale¿y  napisaæ  samemu.  Funkcja  ta  jest
+  zadeklarowana jako:
+  
+    void Status(char* status);
+
+void  ConsultTree(void);
+
+  Klasyfikacja przypadku za pomoc¹ drzewa.
+  
+  Wejœcie: DecisionTree   - drzewo do klasyfikacji
+           RangeDesc      - opis przypadku
+  Wyjœcie: ClassSum[c]    - prawdopodobieñstwo ¿e przypadek nale¿y do klasy c
+           LowClassSum[c] - j.w. - dolna granica
+
+char* ConsultRules(void);
+
+  Klasyfikacja przypadku za pomoc¹ regu³.
+
+  Wejœcie: RangeDesc - opis przypadku.
+  Wyjœcie: Tekst z decyzj¹.
+       
+void  CrossVal(int genrules);
+
+  Przeprowadzenie testu cross-validation.
+
+  Wejœcie: genrules   - true=generowanie drzew i regu³, false=generowanie tylko drzew
+           FOLDS      - liczba podzia³ów zbioru ucz¹cego
+           GAINRATIO  - rodzaj kryterium (true=gain ratio, false=info gain)
+           SUBSET     - czy u¿yæ subseting?
+           PROBTHRESH - czy u¿yæ probabilistycznych progów
+           CF         - pruning confidence level
+           MINOBJS    - minimalna liczba elementów w ka¿dym poddrzewie
+           SIGTEST    - czy u¿yæ test Fishera?
+           SIGTHRESH  - próg dla testu Fishera
+           REDUNDANCY - redundancy factor
+
+  W trakcie dzia³ania funkcja wywo³uje 2 funkcje, które nale¿y napisaæ samemu:
+  
+  void Status(char* status);
+  void ShowTreeInfo(int tree, int size, int errors1,int errors2,
+                    int p_size, int p_errors1, int p_errors2, float estimate);
+  void ShowRulesInfo(int ruleset, int size, int errors1, int errors2);
+
+  Status         - wyœwietla informacjê o stopniu zaawansowania obliczeñ
+  ShowTreeInfo   - wyœwietla informacjê o drzewie; znaczenie parametrów:
+                   tree      - numer drzewa
+                   size      - drzewo unpruned: rozmiar
+                   errors1   - drzewo unpruned: liczba b³êdów w zbiorze treningowym
+                   errors2   - drzewo unpruned: liczba b³êdów w zbiorze testowym
+                   p_size    - drzewo pruned:   rozmiar drzewa unpruned
+                   p_errors1 - drzewo pruned:   liczba b³êdów w zbiorze treningowym
+                   p_errors2 - drzewo pruned:   liczba b³êdów w zbiorze testowym
+                   estimate  - drzewo pruned:   oszacowanie procentu b³êdów
+  ShowRulesInfo  - wyœwietla informacjê o regu³ach; znaczenie parametrów:
+                   ruleset   - numer zbioru regu³
+                   size      - liczba regu³
+                   errors1   - liczba b³êdów w zbiorze treningowym
+                   errors2   - liczba b³êdów w zbiorze testowym
+  
+void  FreeNames(void);
+  
+  Zwalnia pamiêæ zajêt¹ przez opis atrybutów i klas decyzyjnych.
+  
+void  FreeData(void);
+  
+  Zwalnia pamiêæ zajêt¹ przez dane (treningowe i testowe).
+  
+void  FreeTree(int generated);
+  
+  Zwalnia pamiêæ zajêt¹ przez drzewa.  Parametr  generated  okreœla,  czy  drzewo  zosta³o
+  wygenerowane (1) czy wczytane z pliku (0).
+  
+void  FreeRules(void);
+  
+  Zwalnia pamiêæ zajêt¹ przez regu³y.

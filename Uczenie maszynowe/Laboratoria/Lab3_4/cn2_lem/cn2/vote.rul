@@ -1,0 +1,99 @@
+**RULE FILE**
+@
+Time: [ Mon Mar 25 11:01:53 1996 ]
+Examples: vote.exs
+Algorithm: UNORDERED
+Error_Estimate: LAPLACIAN
+Threshold: 0.00
+Star: 5
+@
+
+*UNORDERED-RULE-LIST*
+
+IF    a3 = n
+  AND a4 = y
+  AND a11 = n
+  AND a13 = y
+THEN  Decision = republican  [72 0]
+
+IF    a4 = y
+  AND a10 = y
+  AND a16 = y
+THEN  Decision = republican  [40 0]
+
+IF    a3 = n
+  AND a4 = y
+  AND a10 = y
+  AND a12 = y
+THEN  Decision = republican  [42 0]
+
+IF    a4 = y
+  AND a8 = u
+THEN  Decision = republican  [7 0]
+
+IF    a4 = y
+  AND a13 = y
+  AND a16 = y
+THEN  Decision = republican  [54 0]
+
+IF    a4 = u
+  AND a9 = u
+THEN  Decision = republican  [2 0]
+
+IF    a4 = y
+  AND a15 = u
+THEN  Decision = republican  [7 0]
+
+IF    a1 = y
+  AND a2 = n
+  AND a4 = y
+THEN  Decision = republican  [5 0]
+
+IF    a1 = u
+  AND a7 = n
+THEN  Decision = republican  [1 0]
+
+IF    a4 = y
+  AND a14 = u
+THEN  Decision = republican  [6 0]
+
+IF    a3 = y
+  AND a4 = n
+THEN  Decision = democrat.  [0 151]
+
+IF    a4 = n
+  AND a11 = y
+THEN  Decision = democrat.  [0 79]
+
+IF    a4 = n
+  AND a5 = n
+THEN  Decision = democrat.  [0 130]
+
+IF    a2 = y
+  AND a4 = u
+THEN  Decision = democrat.  [0 4]
+
+IF    a4 = n
+  AND a12 = y
+THEN  Decision = democrat.  [0 24]
+
+IF    a3 = n
+  AND a5 = n
+  AND a11 = y
+THEN  Decision = democrat.  [0 5]
+
+IF    a3 = u
+  AND a6 = y
+  AND a14 = y
+THEN  Decision = democrat.  [0 2]
+
+IF    a6 = u
+  AND a9 = y
+THEN  Decision = democrat.  [0 4]
+
+IF    a7 = n
+  AND a15 = y
+  AND a16 = u
+THEN  Decision = democrat.  [0 3]
+
+(DEFAULT) Decision = democrat.  [116 184]

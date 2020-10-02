@@ -1,0 +1,19 @@
+**ATTRIBUTES
+Temp: [l, n, h] 
+Hem: [p, f, g]
+Blood: [l, n, h]
+Oxygen: [p, f, g]
+Comfort: [l, m, vl]
+decision: Comfort
+
+**EXAMPLES
+l f l f l
+l f n p l
+n g l g l
+n g l g m
+l g n g m
+l g n f m
+n f n g m
+n p h g vl
+h g h f vl
+**END

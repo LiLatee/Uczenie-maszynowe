@@ -1,0 +1,8 @@
+o, d.
+
+length: continuous.
+selector: -, sf2Eq0G, sf2Eq1G, sf2Eq2G, sf2Eq3G, sf2G.
+selAtomFeat: -, afLen, afType.
+splitNo: continuous.
+aggregator: rfMin, rfMax, rfAvg, rfStdDev, rfNoAtomsNorm.
+atomFeat: -, afLen, afType.

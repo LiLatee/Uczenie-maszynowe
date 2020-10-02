@@ -1,0 +1,9 @@
+**ATTRIBUTE FILE**
+
+a1: w1 w2 w3;
+a2: w1 w2 w3;
+a3: w1 w2;
+a4: w1 w3 w2;
+a5: w3 w2 w4 w1;
+a6: w1 w2;
+Decision: w1 w0;

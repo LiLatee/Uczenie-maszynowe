@@ -1,0 +1,23 @@
+**RULE FILE**
+@
+Time: [ Wed Nov 04 11:49:10 1998 ]
+Examples: golftest.exs
+Algorithm: ORDERED
+Error_Estimate: LAPLACIAN
+Threshold: 0.00
+Star: 5
+@
+
+*ORDERED-RULE-LIST*
+
+IF    temperature > 74.50
+  AND humidity < 84.00
+THEN  decision = Play  [0 4]
+ELSE
+IF    67.00 < humidity < 89.00
+THEN  decision = Do_not_Play  [3 0]
+ELSE
+IF    humidity < 93.50
+THEN  decision = Play  [0 3]
+ELSE
+(DEFAULT) decision = Do_not_Play  [1 0]

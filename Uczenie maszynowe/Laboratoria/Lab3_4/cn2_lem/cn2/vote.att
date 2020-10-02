@@ -1,0 +1,20 @@
+**ATTRIBUTE FILE**
+
+a1: n y u;
+a2: n y u;
+a3: y n u;
+a4: y n u;
+a5: y n u;
+a6: y u n;
+a7: y n u;
+a8: y n u;
+a9: n y u;
+a10: y n u;
+a11: y n u;
+a12: y n u;
+a13: n y u;
+a14: y n u;
+a15: u y n;
+a16: y n u;
+
+Decision: republican democrat.;
